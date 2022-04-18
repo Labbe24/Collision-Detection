@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Passed" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2022-03-15 13:12:25Z" end-time="2022-03-15 13:12:25Z" duration="0.0540576">
+  <test-suite type="TestSuite" id="1008" name="RobotVisualizationAndCollisionDetection" fullname="RobotVisualizationAndCollisionDetection" runstate="Runnable" testcasecount="2" result="Passed" start-time="2022-03-15 13:12:25Z" end-time="2022-03-15 13:12:25Z" duration="0.054058" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1012" name="EditModeTests.dll" fullname="C:/Users/lasse/source/repos/Collision-Detection/RobotVisualizationAndCollisionDetection/Library/ScriptAssemblies/EditModeTests.dll" runstate="Runnable" testcasecount="2" result="Passed" start-time="2022-03-15 13:12:25Z" end-time="2022-03-15 13:12:25Z" duration="0.037529" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="29832" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestFixture" id="1009" name="NewTestScript" fullname="NewTestScript" classname="NewTestScript" runstate="Runnable" testcasecount="2" result="Passed" start-time="2022-03-15 13:12:25Z" end-time="2022-03-15 13:12:25Z" duration="0.035536" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1010" name="NewTestScriptSimplePasses" fullname="NewTestScript.NewTestScriptSimplePasses" methodname="NewTestScriptSimplePasses" classname="NewTestScript" runstate="Runnable" seed="1630697971" result="Passed" start-time="2022-03-15 13:12:25Z" end-time="2022-03-15 13:12:25Z" duration="0.007862" asserts="0">
+          <properties />
+        </test-case>
+        <test-case id="1011" name="NewTestScriptWithEnumeratorPasses" fullname="NewTestScript.NewTestScriptWithEnumeratorPasses" methodname="NewTestScriptWithEnumeratorPasses" classname="NewTestScript" runstate="Runnable" seed="1126757869" result="Passed" start-time="2022-03-15 13:12:25Z" end-time="2022-03-15 13:12:25Z" duration="0.011144" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

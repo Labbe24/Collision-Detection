@@ -1,0 +1,17 @@
+{
+	"baseCoordinates":{
+		"X": "0.0",
+		"Y": "0.0",
+		"Z": "0.0",
+	},
+	"jointStateMsg":[
+		{
+			"name": ["", "", "shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0]
+		},
+		{
+			"name": ["", "", "shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0]
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+    "name": "ScriptsAssembly",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Robotics.ROSTCPConnector.Editor",
+        "Unity.Robotics.ROSTCPConnector.Messages",
+        "Unity.Robotics.UrdfImporter",
+        "Unity.Robotics.ROSTCPConnector",
+        "Unity.Robotics.ROSTCPConnector.MessageGeneration"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

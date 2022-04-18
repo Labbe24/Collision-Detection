@@ -1,0 +1,33 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: buildDockerImages
+  jobs:
+    - job: RosNodeDockerImage
+      steps: 
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'dockerRegistryServiceConnectionJens'
+          command: 'login'
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'dockerRegistryServiceConnectionJens'
+          repository: 'jensnk/collision_detection_ros'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'dockerRegistryServiceConnectionJens'
+          command: 'logout'
