@@ -54,7 +54,7 @@ namespace CollisionDetection.Robot.Startup
                 {
                     path = robot1Path.resultPath.text,
                     subscribeTopic = "robot_1_trajectory",
-                    serviceName = "robot_1_trajectory",
+                    serviceName = "generate_trajectory_srv",
                     trajectoryRequestPath = trajectoryRequestHandler1.resultPath.text,
                     trajectoryRequestName = "trajectoryRequestRobot1.json",
                 });
@@ -63,8 +63,8 @@ namespace CollisionDetection.Robot.Startup
                 new RobotConfiguration
                 {
                     path = robot2Path.resultPath.text,
-                    subscribeTopic = "robot_2_trajectory",
-                    serviceName = "robot_2_trajectory",
+                    subscribeTopic = "default",
+                    serviceName = "generate_trajectory_srv",
                     trajectoryRequestPath = trajectoryRequestHandler2.resultPath.text,
                     trajectoryRequestName = "trajectoryRequestRobot2.json",
 

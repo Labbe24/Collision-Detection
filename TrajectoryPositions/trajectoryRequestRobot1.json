@@ -4,14 +4,15 @@
 		"Y": "0.0",
 		"Z": "0.0",
 	},
+	"moveGroup": "ur_manipulator",
 	"jointStateMsg":[
 		{
-			"name": ["", "", "shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-			"position": [0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0]
+			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
 		},
 		{
-			"name": ["", "", "shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-			"position": [70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0]
+			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [-1.74,-3.11,1.29,-1.32,1.74,0.0]
 		}
 	]
 }

@@ -13,17 +13,20 @@ namespace RosMessageTypes.CollisionDetection
         public const string k_RosMessageName = "collision_detection_msgs/GenerateTrajectory";
         public override string RosMessageName => k_RosMessageName;
 
+        public string move_group;
         public Sensor.JointStateMsg start_state;
         public Sensor.JointStateMsg end_state;
 
         public GenerateTrajectoryRequest()
         {
+            this.move_group = "";
             this.start_state = new Sensor.JointStateMsg();
             this.end_state = new Sensor.JointStateMsg();
         }
 
-        public GenerateTrajectoryRequest(Sensor.JointStateMsg start_state, Sensor.JointStateMsg end_state)
+        public GenerateTrajectoryRequest(string move_group, Sensor.JointStateMsg start_state, Sensor.JointStateMsg end_state)
         {
+            this.move_group = move_group;
             this.start_state = start_state;
             this.end_state = end_state;
         }
@@ -32,12 +35,14 @@ namespace RosMessageTypes.CollisionDetection
 
         private GenerateTrajectoryRequest(MessageDeserializer deserializer)
         {
+            deserializer.Read(out this.move_group);
             this.start_state = Sensor.JointStateMsg.Deserialize(deserializer);
             this.end_state = Sensor.JointStateMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
+            serializer.Write(this.move_group);
             serializer.Write(this.start_state);
             serializer.Write(this.end_state);
         }
@@ -45,6 +50,7 @@ namespace RosMessageTypes.CollisionDetection
         public override string ToString()
         {
             return "GenerateTrajectoryRequest: " +
+            "\nmove_group: " + move_group.ToString() +
             "\nstart_state: " + start_state.ToString() +
             "\nend_state: " + end_state.ToString();
         }

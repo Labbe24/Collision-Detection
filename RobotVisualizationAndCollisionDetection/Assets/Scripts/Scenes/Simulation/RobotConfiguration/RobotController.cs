@@ -43,9 +43,10 @@ namespace CollisionDetection.Robot.Control
             startPosition = vector;
         }
 
-        public void ROSServiceCallback(Message jointTrajectory)
+        public void ROSServiceCallback(GenerateTrajectoryResponse jointTrajectory)
         {
-            Trajectory = ((GenerateTrajectoryResponse)jointTrajectory).res;
+            Trajectory = jointTrajectory.res;
+            Debug.Log("callback for "+ Trajectory.joint_names[0]);
             StartTrajectoryExecution();
         }
         public void ReceivedTrajectory(RosJointTrajectory trajectoryMsg)

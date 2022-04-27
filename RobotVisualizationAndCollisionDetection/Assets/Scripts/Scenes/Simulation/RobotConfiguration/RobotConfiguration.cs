@@ -34,10 +34,10 @@ namespace CollisionDetection.Robot.Configuration
         public GenerateTrajectoryRequest GetTrajectoryRequest()
         {
             GenerateTrajectoryRequest trajectoryRequest = new GenerateTrajectoryRequest();
-
             TrajectoryRequest trajectory = JsonConvert.DeserializeObject<TrajectoryRequest>(File.ReadAllText(Path.GetFullPath(Path.Combine(trajectoryRequestPath, trajectoryRequestName))));
             if (trajectory.jointStateMsg.Count == 2)
             {
+                trajectoryRequest.move_group = trajectory.moveGroup;
                 trajectoryRequest.start_state = trajectory.jointStateMsg[0];
                 trajectoryRequest.end_state = trajectory.jointStateMsg[1];
             }
