@@ -26,7 +26,7 @@ public class SimulationController : MonoBehaviour
         {
             foreach (var robot in robots)
             {
-                robot.StartTrajectoryExecution();
+                StartCoroutine(robot.StartTrajectoryExecution());
             }
         }
         else
