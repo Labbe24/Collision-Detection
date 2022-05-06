@@ -56,8 +56,6 @@ namespace CollisionDetection.Robot.Control
 
         void Start()
         {
-            //_listView = GameObject.FindWithTag(content_tag).GetComponent<ListView>();
-
             events = new List<CollisionEvent>();
 
             // Add collision detection controller to components in children with MeshCollider
@@ -108,18 +106,11 @@ namespace CollisionDetection.Robot.Control
             Debug.Log("Trajectory execution finished!");
 
             // list.ClearList();
-            GameObject.FindWithTag(content_tag).GetComponent<ListViewHandler>().AddCollisions(events);
+            // _listView.AddCollisions(events);
         }
         void Update()
         {
             elapsedTime += Time.deltaTime;
-
-            // used for testing
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                // list.ClearList();
-                GameObject.FindWithTag(content_tag).GetComponent<ListViewHandler>().AddCollisions(events);
-            }
         }
 
         public void UpdateRobotPosition(RosJointTrajectoryPoint point, string[] names)
