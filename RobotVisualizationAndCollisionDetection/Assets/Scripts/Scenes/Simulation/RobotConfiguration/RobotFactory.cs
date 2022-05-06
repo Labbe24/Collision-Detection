@@ -26,14 +26,15 @@ namespace CollisionDetection.Robot.Model
             RobotController controller = robot.GetComponent<RobotController>();
 
             // Service - New
-            configuration.service.RegisterService<GenerateTrajectoryResponse, RosJointTrajectory>(controller.ROSServiceCallback, configuration.serviceName);
-            configuration.service.SendServiceMsg<GenerateTrajectoryRequest>(controller.ROSServiceCallback, configuration.serviceName, configuration.GetTrajectoryRequest());
+            configuration.service.RegisterService<GenerateTrajectoryRequest, GenerateTrajectoryResponse>(configuration.serviceName);
+            configuration.service.SendServiceMsg<GenerateTrajectoryRequest,GenerateTrajectoryResponse>(controller.ROSServiceCallback, configuration.serviceName, configuration.GetTrajectoryRequest());
 
             // Subscribe - Old
-            configuration.subscriber.Subscribe<RosJointTrajectory>(controller.ReceivedTrajectory, configuration.subscribeTopic);
+            // configuration.subscriber.Subscribe<RosJointTrajectory>(controller.ReceivedTrajectory, configuration.subscribeTopic);
 
             controller.SetRobotMsgMapper(robotMsgMapper);
             controller.SetRobotStartPosition(configuration.GetRobotStartCoordinates());
+            controller.SetRobotStartRotation(configuration.GetRobotStartRotation());
 
             return robot;
         }

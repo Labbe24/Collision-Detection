@@ -6,13 +6,13 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 public class RosService : IService
 {
-    public void RegisterService<T, U>(Action<T> callback, string serviceName) where T : Message where U : Message
+    public void RegisterService<RequestType, ResponseType>(string serviceName) where RequestType : Message where ResponseType : Message
     {
-        ROSConnection.GetOrCreateInstance().RegisterRosService<U, T>(serviceName);
+        ROSConnection.GetOrCreateInstance().RegisterRosService<RequestType, ResponseType>(serviceName);
     }
 
-    public void SendServiceMsg<T>(Action<Message> callback, string serviceName, T serviceRequest) where T : Message
+    public void SendServiceMsg<RequestType,ResponseType>(Action<ResponseType> callback, string serviceName, RequestType serviceRequest) where RequestType : Message where ResponseType : Message,new()
     {
-        ROSConnection.GetOrCreateInstance().SendServiceMessage<Message>(serviceName, serviceRequest, callback);
+        ROSConnection.GetOrCreateInstance().SendServiceMessage<ResponseType>(serviceName, serviceRequest, callback);
     }
 }

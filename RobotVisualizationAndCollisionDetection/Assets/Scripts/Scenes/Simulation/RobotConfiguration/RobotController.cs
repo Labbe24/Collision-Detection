@@ -30,6 +30,7 @@ namespace CollisionDetection.Robot.Control
         public List<CollisionEvent> events;
         public RobotMsgMapper robotMsgMapper = new RobotMsgMapper();
         public Vector3 startPosition;
+        public Vector3 startRotation;
 
         private ListViewHandler _listView;
         private double deltaTime;
@@ -42,11 +43,15 @@ namespace CollisionDetection.Robot.Control
         {
             startPosition = vector;
         }
-
-        public void ROSServiceCallback(Message jointTrajectory)
+        public void SetRobotStartRotation(Vector3 vector)
         {
-            Trajectory = ((GenerateTrajectoryResponse)jointTrajectory).res;
-            StartTrajectoryExecution();
+            startRotation = vector;
+        }
+
+        public void ROSServiceCallback(GenerateTrajectoryResponse jointTrajectory)
+        {
+            ReceivedTrajectory(jointTrajectory.res);
+            Debug.Log("callback for "+ Trajectory.joint_names[0]);
         }
         public void ReceivedTrajectory(RosJointTrajectory trajectoryMsg)
         {
@@ -56,8 +61,6 @@ namespace CollisionDetection.Robot.Control
 
         void Start()
         {
-            //_listView = GameObject.FindWithTag(content_tag).GetComponent<ListView>();
-
             events = new List<CollisionEvent>();
 
             // Add collision detection controller to components in children with MeshCollider
@@ -83,7 +86,7 @@ namespace CollisionDetection.Robot.Control
 
                 if (joint.isRoot)
                 {
-                    joint.TeleportRoot(startPosition, Quaternion.identity);
+                    joint.TeleportRoot(startPosition, Quaternion.Euler(startRotation.x, startRotation.y, startRotation.z));
                 }
             }
 
@@ -108,18 +111,11 @@ namespace CollisionDetection.Robot.Control
             Debug.Log("Trajectory execution finished!");
 
             // list.ClearList();
-            GameObject.FindWithTag(content_tag).GetComponent<ListViewHandler>().AddCollisions(events);
+            // _listView.AddCollisions(events);
         }
         void Update()
         {
             elapsedTime += Time.deltaTime;
-
-            // used for testing
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                // list.ClearList();
-                GameObject.FindWithTag(content_tag).GetComponent<ListViewHandler>().AddCollisions(events);
-            }
         }
 
         public void UpdateRobotPosition(RosJointTrajectoryPoint point, string[] names)
