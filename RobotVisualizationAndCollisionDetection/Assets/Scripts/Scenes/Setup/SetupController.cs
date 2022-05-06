@@ -64,7 +64,7 @@ namespace CollisionDetection.Robot.Startup
                 {
                     path = robot2Path.resultPath.text,
                     subscribeTopic = "default",
-                    serviceName = "generate_trajectory_srv",
+                    serviceName = "generate_trajectory_srv1",
                     trajectoryRequestPath = trajectoryRequestHandler2.resultPath.text,
                     trajectoryRequestName = "trajectoryRequestRobot2.json",
 
