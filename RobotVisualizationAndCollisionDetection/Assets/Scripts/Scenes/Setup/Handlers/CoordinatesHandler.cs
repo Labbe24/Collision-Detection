@@ -9,8 +9,8 @@ namespace CollisionDetection.Robot.Startup
 
         public CoordinatesHandler()
         {
-            robot1Coordinates = new ObjectCoordinates(0, 0, 0);
-            robot2Coordinates = new ObjectCoordinates(1, 0, 0);
+            robot1Coordinates = new ObjectCoordinates(0, 0, 0, 0, 0, 0);
+            robot2Coordinates = new ObjectCoordinates(1, 0, 0, 0, 0, 0);
         }
 
         public void robot1XCoordinateOnChange(string coordinate)

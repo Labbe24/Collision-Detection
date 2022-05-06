@@ -30,6 +30,7 @@ namespace CollisionDetection.Robot.Control
         public List<CollisionEvent> events;
         public RobotMsgMapper robotMsgMapper = new RobotMsgMapper();
         public Vector3 startPosition;
+        public Vector3 startRotation;
 
         private ListViewHandler _listView;
         private double deltaTime;
@@ -41,6 +42,10 @@ namespace CollisionDetection.Robot.Control
         public void SetRobotStartPosition(Vector3 vector)
         {
             startPosition = vector;
+        }
+        public void SetRobotStartRotation(Vector3 vector)
+        {
+            startRotation = vector;
         }
 
         public void ROSServiceCallback(Message jointTrajectory)
@@ -83,7 +88,7 @@ namespace CollisionDetection.Robot.Control
 
                 if (joint.isRoot)
                 {
-                    joint.TeleportRoot(startPosition, Quaternion.identity);
+                    joint.TeleportRoot(startPosition, Quaternion.Euler(startRotation.x, startRotation.y, startRotation.z));
                 }
             }
 

@@ -3,6 +3,9 @@
 		"X": "1.0",
 		"Y": "0.65",
 		"Z": "0.0",
+		"RotationX": "90",
+		"RotationY": "0",
+		"RotationZ": "0",
 	},
 	"jointStateMsg":[
 		{

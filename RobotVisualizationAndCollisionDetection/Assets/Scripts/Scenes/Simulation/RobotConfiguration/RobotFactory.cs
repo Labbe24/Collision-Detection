@@ -34,6 +34,7 @@ namespace CollisionDetection.Robot.Model
 
             controller.SetRobotMsgMapper(robotMsgMapper);
             controller.SetRobotStartPosition(configuration.GetRobotStartCoordinates());
+            controller.SetRobotStartRotation(configuration.GetRobotStartRotation());
 
             return robot;
         }

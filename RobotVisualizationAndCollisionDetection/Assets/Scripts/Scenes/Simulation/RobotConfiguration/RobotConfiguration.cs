@@ -18,6 +18,7 @@ namespace CollisionDetection.Robot.Configuration
         public string urdfFileName = "model.urdf";
         public string mappingFileName = "mapping.json";
         public string trajectoryRequestName;
+        public TrajectoryRequest trajectoryRequest;
 
         private string GetPath(string file)
         {
@@ -33,21 +34,25 @@ namespace CollisionDetection.Robot.Configuration
         }
         public GenerateTrajectoryRequest GetTrajectoryRequest()
         {
-            GenerateTrajectoryRequest trajectoryRequest = new GenerateTrajectoryRequest();
+            GenerateTrajectoryRequest generatedTrajectoryRequest = new GenerateTrajectoryRequest();
 
-            TrajectoryRequest trajectory = JsonConvert.DeserializeObject<TrajectoryRequest>(File.ReadAllText(Path.GetFullPath(Path.Combine(trajectoryRequestPath, trajectoryRequestName))));
-            if (trajectory.jointStateMsg.Count == 2)
+            trajectoryRequest = JsonConvert.DeserializeObject<TrajectoryRequest>(File.ReadAllText(Path.GetFullPath(Path.Combine(trajectoryRequestPath, trajectoryRequestName))));
+            if (trajectoryRequest.jointStateMsg.Count == 2)
             {
-                trajectoryRequest.start_state = trajectory.jointStateMsg[0];
-                trajectoryRequest.end_state = trajectory.jointStateMsg[1];
+                generatedTrajectoryRequest.start_state = trajectoryRequest.jointStateMsg[0];
+                generatedTrajectoryRequest.end_state = trajectoryRequest.jointStateMsg[1];
             }
 
-            return trajectoryRequest;
+            return generatedTrajectoryRequest;
         }
+        
         public Vector3 GetRobotStartCoordinates()
         {
-            TrajectoryRequest trajectory = JsonConvert.DeserializeObject<TrajectoryRequest>(File.ReadAllText(Path.GetFullPath(Path.Combine(trajectoryRequestPath, trajectoryRequestName))));
-            return new Vector3(trajectory.baseCoordinates.X, trajectory.baseCoordinates.Y, trajectory.baseCoordinates.Z);
+            return new Vector3(trajectoryRequest.baseCoordinates.X, trajectoryRequest.baseCoordinates.Y, trajectoryRequest.baseCoordinates.Z);
+        }
+        public Vector3 GetRobotStartRotation()
+        {
+            return new Vector3(trajectoryRequest.baseCoordinates.RotationX, trajectoryRequest.baseCoordinates.RotationY, trajectoryRequest.baseCoordinates.RotationZ);
         }
 
         public ISubscriber subscriber = new RosSubscriber();
