@@ -10,7 +10,7 @@ namespace CollisionDetection.Communication
 {
     public interface IService
     {
-        void RegisterService<T, U>(Action<T> callback, string serviceName) where T : Message where U : Message;
-        void SendServiceMsg<T>(Action<Message> callback, string serviceName, T serviceRequest) where T : Message;
+        void RegisterService<RequestType, ResponseType>(string serviceName) where RequestType : Message where ResponseType : Message;
+        void SendServiceMsg<RequestType, ResponseType>(Action<ResponseType> callback, string serviceName, RequestType serviceRequest) where RequestType : Message where ResponseType : Message,new();
     }
 }

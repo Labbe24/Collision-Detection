@@ -6,12 +6,17 @@ using UnityEngine.UI;
 public class ListViewHandler : MonoBehaviour
 {
     public GameObject listItemPrefab;
-
+    public GameObject simulationControllerObject;
+    public SimulationController simulationController;
     // Start is called before the first frame update
     async void Start()
     {
     }
 
+    void OnEnable(){
+        // this.gameObject.
+        AddCollisions(simulationController.getCollisions());
+    }
     public void AddCollisions(List<CollisionEvent> events)
     {
         foreach (var colloisionEvent in events)

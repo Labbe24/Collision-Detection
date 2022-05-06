@@ -7,14 +7,15 @@
 		"RotationY": "0",
 		"RotationZ": "0",
 	},
+	"moveGroup":"iiwa7_arm",
 	"jointStateMsg":[
 		{
-			"name": ["", "", "shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-			"position": [0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0]
+			"name": ["lbr_joint_0","lbr_joint_1", "lbr_joint_2", "lbr_joint_3", "lbr_joint_4", "lbr_joint_5","lbr_joint_6"],
+			"position": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0]
 		},
 		{
-			"name": ["", "", "shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-			"position": [70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0]
+			"name": ["lbr_joint_0","lbr_joint_1", "lbr_joint_2", "lbr_joint_3", "lbr_joint_4", "lbr_joint_5","lbr_joint_6"],
+			"position": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0]
 		}
 	]
 }

@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using CollisionDetection.Robot.Control;
 using UnityEngine;
-
+using System.Linq;
 public class SimulationController : MonoBehaviour
 {
     public List<RobotController> robots;
 
+    public List<CollisionEvent> getCollisions(){
+        return robots.Aggregate(
+            new List<CollisionEvent>(),
+            (acc,item) =>  acc.Concat(item.events).ToList()
+        );
+    }
     void Start()
     {
     }
@@ -26,7 +32,7 @@ public class SimulationController : MonoBehaviour
         {
             foreach (var robot in robots)
             {
-                robot.StartTrajectoryExecution();
+                StartCoroutine(robot.StartTrajectoryExecution());
             }
         }
         else
