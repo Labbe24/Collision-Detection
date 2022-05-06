@@ -12,7 +12,7 @@
 		},
 		{
 			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-			"position": [-1.74,-3.11,1.29,-1.32,1.74,0.0]
+			"position": [1.57,-1.57,-1.57,-1.32,1.74,0.0]
 		}
 	]
 }
