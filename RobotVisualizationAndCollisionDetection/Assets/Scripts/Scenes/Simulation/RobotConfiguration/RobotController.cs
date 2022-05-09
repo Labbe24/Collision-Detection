@@ -99,7 +99,7 @@ namespace CollisionDetection.Robot.Control
             for (int i = 0; i < Trajectory.points.Length; i++)
             {
                 var next_msg_timestamp = (float)Trajectory.points[i].time_from_start.sec + (float)Trajectory.points[i].time_from_start.nanosec / (Math.Pow(10f, 9f));
-                yield return new WaitUntil(() => next_msg_timestamp >= elapsedTime);
+                yield return new WaitUntil(() => next_msg_timestamp <= elapsedTime);
                 UpdateRobotPosition(Trajectory.points[i], Trajectory.joint_names);
             }
         }

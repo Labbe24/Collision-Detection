@@ -15,7 +15,19 @@
 		},
 		{
 			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [0.2,0.0,-0.5,-1.32,1.74,0.0]
+		},
+		{
+			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
+		},
+		{
+			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
 			"position": [2.30,-3.0,-0.5,-1.32,1.74,0.0]
+		},
+		{
+			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+			"position": [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
 		}
 	]
 }
