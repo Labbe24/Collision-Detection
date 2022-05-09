@@ -22,7 +22,7 @@ namespace CollisionDetection.Robot.Model
             RobotMsgMapper robotMsgMapper = DeserializeRobotMsgMapper(configuration.GetMappingPath());
 
             GameObject robot = UrdfImporter.LoadUrdf(configuration.GetUrdfPath(), transform, robotMsgMapper.ImmovableLinkName);
-            robot.AddComponent<Rigidbody>();
+            // robot.AddComponent<Rigidbody>();
             RobotController controller = robot.GetComponent<RobotController>();
 
             // Service - New
