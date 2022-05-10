@@ -8,7 +8,7 @@ public class RobotCollisionDetectionController : MonoBehaviour
 {
     // Start is called before the first frame update
     private RobotController _robotController;
-    private Collider _collider;
+    private MeshCollider _collider;
     void Start()
     {
         _collider = this.GetComponent<MeshCollider>();
@@ -16,6 +16,7 @@ public class RobotCollisionDetectionController : MonoBehaviour
 
         Assert.IsNotNull(_collider);
         Assert.IsNotNull(_robotController);
+        _collider.convex = true;
     }
 
     // Update is called once per frame
