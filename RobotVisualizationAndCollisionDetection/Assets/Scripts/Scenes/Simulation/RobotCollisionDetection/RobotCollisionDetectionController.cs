@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CollisionDetection.Robot.Control;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -33,21 +34,45 @@ public class RobotCollisionDetectionController : MonoBehaviour
     {
         // Log joint index, joint name and joint position
         ArticulationBody articulationBody = _collider.attachedArticulationBody;
-        Debug.Log("Joint index: " + articulationBody.index);
-        Debug.Log("Joint name: " + articulationBody.name);
+        List<ArticulationBody> bodies = new List<ArticulationBody>();
+        bodies.AddRange(articulationBody.GetComponentsInChildren<ArticulationBody>());
+        bodies.AddRange(articulationBody.GetComponentsInParent<ArticulationBody>());
+        List<ArticulationBody> distinctBodies = bodies.GroupBy(x => x.name).Select(y => y.First()).ToList();
 
-        if (articulationBody.jointPosition.dofCount == 1)
+        ArticulationBody otherArticulationBody = collision.collider.attachedArticulationBody;
+        List<ArticulationBody> otherBodies = new List<ArticulationBody>();
+        bodies.AddRange(articulationBody.GetComponentsInChildren<ArticulationBody>());
+        bodies.AddRange(articulationBody.GetComponentsInParent<ArticulationBody>());
+        List<ArticulationBody> otherDistinctBodies = bodies.GroupBy(x => x.name).Select(y => y.First()).ToList();
+        
+        var collisionEvent = new CollisionEvent();
+        collisionEvent.time = _robotController.GetElapsedTime();
+        var robotOneState = new RobotState();
+        var robotTwoState = new RobotState();
+        robotOneState.name = articulationBody.transform.root.name;
+        robotTwoState.name = otherArticulationBody.transform.root.name;
+        
+        foreach(var ab in distinctBodies)
         {
-            Debug.Log("Joint position: " + articulationBody.jointPosition[0]);
-            var collisionEvent = new CollisionEvent();
-
-            collisionEvent.robotName = _collider.transform.root.name;
-            collisionEvent.jointName = articulationBody.name;
-            collisionEvent.jointIndex = articulationBody.index;
-            collisionEvent.jointPosition = articulationBody.jointPosition[0];
-            collisionEvent.time = _robotController.GetElapsedTime();
-            _robotController.events.Add(collisionEvent);
+            if (ab.jointPosition.dofCount == 1)
+            {
+                robotOneState.jointNames.Add(ab.name);
+                robotOneState.jointPositions.Add(ab.jointPosition[0].ToString());
+            }
         }
+
+        foreach(var ab in otherDistinctBodies)
+        {
+            if (ab.jointPosition.dofCount == 1)
+            {
+                robotTwoState.jointNames.Add(ab.name);
+                robotTwoState.jointPositions.Add(ab.jointPosition[0].ToString());     
+            }
+        }
+        Debug.Log("Robots collided " + articulationBody.transform.root.name);
+        collisionEvent.robotStates.Add(robotOneState);
+        collisionEvent.robotStates.Add(robotTwoState);
+        _robotController.collision = collisionEvent;
     }
 
     //Detect when there are ongoing Collisions
