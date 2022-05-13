@@ -27,7 +27,7 @@ namespace CollisionDetection.Robot.Control
         public float speed = 5f; // Units: degree/s
         public float torque = 100f; // Units: Nm or N
         public float acceleration = 5f;// Units: m/s^2 / degree/s^2
-        public List<CollisionEvent> events;
+        public CollisionEvent collision;
         public RobotMsgMapper robotMsgMapper = new RobotMsgMapper();
         public Vector3 startPosition;
         public Vector3 startRotation;
@@ -61,8 +61,6 @@ namespace CollisionDetection.Robot.Control
 
         void Start()
         {
-            events = new List<CollisionEvent>();
-
             // Add collision detection controller to components in children with MeshCollider
             foreach (Transform child in GetComponentsInChildren<Transform>())
             {

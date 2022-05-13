@@ -7,11 +7,14 @@ public class SimulationController : MonoBehaviour
 {
     public List<RobotController> robots;
 
-    public List<CollisionEvent> getCollisions(){
-        return robots.Aggregate(
-            new List<CollisionEvent>(),
-            (acc,item) =>  acc.Concat(item.events).ToList()
-        );
+    public RobotState getRobotCollisionState(int i){
+        // return robots.Aggregate(
+        //     new List<CollisionEvent>(),
+        //     (acc,item) =>  acc.Concat(item.events).ToList()
+        // );
+        if(robots.First() == null) Debug.Log("robots.First() == null");
+        if(robots.First().collision == null) Debug.Log("robots.First().collision == null");
+        return robots.First().collision.robotStates[i];
     }
     void Start()
     {

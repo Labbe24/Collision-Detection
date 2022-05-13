@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ListViewHandler : MonoBehaviour
+public class LastCommandListViewHandler : MonoBehaviour
 {
     public int robotIndex;
     public GameObject listItemPrefab;
@@ -16,8 +16,7 @@ public class ListViewHandler : MonoBehaviour
 
     void OnEnable()
     {
-        // this.gameObject.
-        AddCollisions(simulationController.getRobotCollisionState(robotIndex));
+        // AddLastCommand(simulationController.getRobotCollisionState(robotIndex));
     }
     public void AddCollisions(RobotState robotState)
     {
