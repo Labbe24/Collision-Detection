@@ -14,7 +14,6 @@ namespace CollisionDetection.Robot.Control
     public enum ControlType { PositionControl };
     public class RobotController : MonoBehaviour
     {
-        private float elapsedTime;
         public RosJointTrajectory Trajectory { get; set; }
         private ArticulationBody[] _articulationChain;
         // private RosPublisher _rosPublisher;
@@ -27,12 +26,10 @@ namespace CollisionDetection.Robot.Control
         public float speed = 5f; // Units: degree/s
         public float torque = 100f; // Units: Nm or N
         public float acceleration = 5f;// Units: m/s^2 / degree/s^2
-        public CollisionEvent collision;
         public RobotMsgMapper robotMsgMapper = new RobotMsgMapper();
         public Vector3 startPosition;
         public Vector3 startRotation;
-
-        private ListViewHandler _listView;
+        public RobotTrajectoryPoint LastCommand { get; private set; }
         private double deltaTime;
 
         public void SetRobotMsgMapper(RobotMsgMapper msgMapper)
@@ -90,30 +87,21 @@ namespace CollisionDetection.Robot.Control
 
             Assert.IsNotNull(_articulationChain);
         }
-        IEnumerator ExecuteTrajectory()
+        public IEnumerator StartTrajectoryExecution()
         {
             StartTimer();
 
             for (int i = 0; i < Trajectory.points.Length; i++)
             {
                 var next_msg_timestamp = (float)Trajectory.points[i].time_from_start.sec + (float)Trajectory.points[i].time_from_start.nanosec / (Math.Pow(10f, 9f));
-                yield return new WaitUntil(() => next_msg_timestamp <= elapsedTime);
+                yield return new WaitUntil(() => next_msg_timestamp <= GetElapsedTime());
                 UpdateRobotPosition(Trajectory.points[i], Trajectory.joint_names);
+                LastCommand = new RobotTrajectoryPoint(){joint_names=Trajectory.joint_names, point=Trajectory.points[i] };
             }
-        }
-        public IEnumerator StartTrajectoryExecution()
-        {
-            elapsedTime = 0.0f;
-            yield return StartCoroutine(ExecuteTrajectory());
 
-            Debug.Log("Trajectory execution finished!");
-
-            // list.ClearList();
-            // _listView.AddCollisions(events);
         }
         void Update()
         {
-            elapsedTime += Time.deltaTime;
         }
 
         public void UpdateRobotPosition(RosJointTrajectoryPoint point, string[] names)

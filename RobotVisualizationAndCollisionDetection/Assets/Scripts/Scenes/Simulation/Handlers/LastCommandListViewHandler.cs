@@ -16,13 +16,17 @@ public class LastCommandListViewHandler : MonoBehaviour
 
     void OnEnable()
     {
-        // AddLastCommand(simulationController.getRobotCollisionState(robotIndex));
+        ClearList();
+        var state=simulationController.getRobotLastState(robotIndex);
+        if(state!=null){
+            AddStates(state);
+        }
     }
-    public void AddCollisions(RobotState robotState)
+    public void AddStates(RobotTrajectoryPoint robotState)
     {
-        for(int i = 0; i < robotState.jointNames.Count; i++)
+        for(int i = 0; i < robotState.joint_names.Length; i++)
         {
-            AddListItem(robotState.jointNames[i], robotState.jointPositions[i]);
+            AddListItem(robotState.joint_names[i], robotState.point.positions[i].ToString());
         }
     }
 
