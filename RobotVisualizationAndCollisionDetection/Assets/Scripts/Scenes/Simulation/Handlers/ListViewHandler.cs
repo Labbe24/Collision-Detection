@@ -16,8 +16,11 @@ public class ListViewHandler : MonoBehaviour
 
     void OnEnable()
     {
-        // this.gameObject.
-        AddCollisions(simulationController.getRobotCollisionState(robotIndex));
+        ClearList();
+        var state=simulationController.getRobotCollisionState(robotIndex);
+        if(state!=null){
+            AddCollisions(state.robotState);
+        }
     }
     public void AddCollisions(RobotState robotState)
     {
