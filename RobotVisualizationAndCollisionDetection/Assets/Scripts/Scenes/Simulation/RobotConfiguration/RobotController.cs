@@ -73,7 +73,6 @@ namespace CollisionDetection.Robot.Control
             foreach (ArticulationBody joint in _articulationChain)
             {
                 joint.gameObject.AddComponent<RobotJointControl>();
-                joint.collisionDetectionMode = CollisionDetectionMode.Continuous;
                 joint.jointFriction = defDyanmicVal;
                 joint.angularDamping = defDyanmicVal;
                 ArticulationDrive currentDrive = joint.xDrive;
