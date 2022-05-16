@@ -108,7 +108,7 @@ namespace CollisionDetection.Robot.Control
         {
             for (int i = 0; i < point.positions.Length; i++)
             {
-                UpdateJoint((float)(point.positions[i] * 180 / System.Math.PI), names[i]);
+                UpdateJoint((float)(point.positions[i] * 180 / System.Math.PI),(float)(point.velocities[i] * 180 / System.Math.PI), names[i]);
             }
         }
 
@@ -116,7 +116,7 @@ namespace CollisionDetection.Robot.Control
         /// Moves the joint corresponding to the selected index in the articulation chain
         /// </summary>
         /// <param name="selectedIndex">Index of the link selected in the Articulation Chain</param>
-        public void UpdateJoint(float newTarget, string name)
+        public void UpdateJoint(float newTarget,float newVelocityTarget, string name)
         {
             if (!robotMsgMapper.RobotContainsJoint(name))
             {
@@ -130,6 +130,7 @@ namespace CollisionDetection.Robot.Control
             if (_articulationChain[selectedIndex].jointPosition.dofCount >= 1)
             {
                 currentDrive.target = newTarget;
+                currentDrive.targetVelocity = newVelocityTarget;
                 _articulationChain[selectedIndex].xDrive = currentDrive;
             }
         }
