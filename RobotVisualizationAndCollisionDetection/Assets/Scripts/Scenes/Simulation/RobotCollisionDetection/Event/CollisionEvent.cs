@@ -19,7 +19,7 @@ public class CollisionEvent // : IComparable<CollisionEvent>
 {
     public RobotState robotState;
     public double time;
-    public string collided_joint;
+    public string collidedJoint;
 
     // implementation of how the Sort method should compare CollisionEvents in a List<CollisionEvent>
     // public int CompareTo(CollisionEvent other)
