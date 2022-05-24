@@ -48,7 +48,7 @@ namespace CollisionDetection.Robot.Control
         public void ROSServiceCallback(GenerateTrajectoryResponse jointTrajectory)
         {
             ReceivedTrajectory(jointTrajectory.res);
-            Debug.Log("callback for "+ Trajectory.joint_names[0]);
+            Debug.Log("callback for " + Trajectory.joint_names[0]);
         }
         public void ReceivedTrajectory(RosJointTrajectory trajectoryMsg)
         {
@@ -94,9 +94,12 @@ namespace CollisionDetection.Robot.Control
             for (int i = 0; i < Trajectory.points.Length; i++)
             {
                 var next_msg_timestamp = (float)Trajectory.points[i].time_from_start.sec + (float)Trajectory.points[i].time_from_start.nanosec / (Math.Pow(10f, 9f));
-                yield return new WaitUntil(() => next_msg_timestamp <= GetElapsedTime());
+                if (next_msg_timestamp > GetElapsedTime())
+                {
+                    yield return new WaitUntil(() => next_msg_timestamp <= GetElapsedTime());
+                }
                 UpdateRobotPosition(Trajectory.points[i], Trajectory.joint_names);
-                LastCommand = new RobotTrajectoryPoint(){joint_names=Trajectory.joint_names, point=Trajectory.points[i] };
+                LastCommand = new RobotTrajectoryPoint() { joint_names = Trajectory.joint_names, point = Trajectory.points[i] };
             }
 
         }
@@ -108,7 +111,7 @@ namespace CollisionDetection.Robot.Control
         {
             for (int i = 0; i < point.positions.Length; i++)
             {
-                UpdateJoint((float)(point.positions[i] * 180 / System.Math.PI),(float)(point.velocities[i] * 180 / System.Math.PI), names[i]);
+                UpdateJoint((float)(point.positions[i] * 180 / System.Math.PI), (float)(point.velocities[i] * 180 / System.Math.PI), names[i]);
             }
         }
 
@@ -116,7 +119,7 @@ namespace CollisionDetection.Robot.Control
         /// Moves the joint corresponding to the selected index in the articulation chain
         /// </summary>
         /// <param name="selectedIndex">Index of the link selected in the Articulation Chain</param>
-        public void UpdateJoint(float newTarget,float newVelocityTarget, string name)
+        public void UpdateJoint(float newTarget, float newVelocityTarget, string name)
         {
             if (!robotMsgMapper.RobotContainsJoint(name))
             {
