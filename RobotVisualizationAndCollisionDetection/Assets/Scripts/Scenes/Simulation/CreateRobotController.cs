@@ -8,17 +8,18 @@ using CollisionDetection.Robot.Control;
 public class CreateRobotController : MonoBehaviour
 {
     public GameObject simulator;
-    public int robot_store_index;
-    // Start is called before the first frame update
+    public int robotStoreIndex;
+    
+    /// <summary>
+    /// Creates a robot, gets it's RobotController and sets it in the SimulationController.
+    /// </summary>
     void Start()
     {
-        var configs = RobotConfigStore.configurations[robot_store_index];
-
+        var configs = RobotConfigStore.configurations[robotStoreIndex];
         var simulationController = simulator.GetComponent<SimulationController>();
         simulationController.robots.Add(RobotFactory.CreateRobot(transform, configs).GetComponent<RobotController>());
     }
 
-    // Update is called once per frame
     void Update()
     {
 

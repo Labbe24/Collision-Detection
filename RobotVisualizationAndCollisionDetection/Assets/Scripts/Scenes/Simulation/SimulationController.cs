@@ -7,30 +7,59 @@ public class SimulationController : MonoBehaviour
 {
     public List<RobotController> robots;
     private List<IEnumerator> coroutines;
-    private List<RobotTrajectoryPoint> last_commands_before_collision;
-    private List<CollisionEvent> collision_states;
-    public void setRobotCollisionState(RobotController robot,CollisionEvent state){
-        collision_states[robots.IndexOf(robot)]=state;
+    private List<RobotTrajectoryPoint> lastCommandsBeforeCollision;
+    private List<CollisionEvent> collisionStates;
+
+    /// <summary>
+    /// Sets the collision event
+    /// </summary>
+    /// <param name="robot">Robot that handled the collision</param>
+    /// <param name="collision">Containsinfomartion about the collision</param>
+    public void SetRobotCollisionState(RobotController robot,CollisionEvent collision)
+    {
+        collisionStates[robots.IndexOf(robot)] = collision;
     }
-    public CollisionEvent getRobotCollisionState(int i){
-        return collision_states[i];
+
+    /// <summary>
+    /// Gets a collision event
+    /// </summary>
+    /// <param name="i">What robot to get the collison from</param>
+    /// <returns>Collision event from the chosen robot</returns>
+    public CollisionEvent GetRobotCollisionState(int i)
+    {
+        return collisionStates[i];
     }
-    public RobotTrajectoryPoint getRobotLastState(int i){
-        return last_commands_before_collision[i];
+
+    /// <summary>
+    /// Gets the last executed trajectory before the collision occured
+    /// </summary>
+    /// <param name="i">What robot to get the last executed trajectory from</param>
+    /// <returns>Trajectory from the chosen robot</returns>
+    public RobotTrajectoryPoint GetRobotLastState(int i)
+    {
+        return lastCommandsBeforeCollision[i];
     }
-    public double getColissionTime(){
-        foreach(var collision in collision_states){
+
+    /// <summary>
+    /// Gets the time when the collision occured
+    /// </summary>
+    /// <returns>Time of collision</returns>
+    public double GetColissionTime()
+    {
+        foreach(var collision in collisionStates)
+        {
             if(collision!=null){
                 return collision.time;
             }
         }
         return 0.0;
     }
+
     void Start()
     {
         coroutines = new List<IEnumerator>();
-        last_commands_before_collision = new List<RobotTrajectoryPoint>(){null, null};
-        collision_states = new List<CollisionEvent>(){null, null};
+        lastCommandsBeforeCollision = new List<RobotTrajectoryPoint>(){null, null};
+        collisionStates = new List<CollisionEvent>(){null, null};
     }
 
     void Update()
@@ -42,6 +71,10 @@ public class SimulationController : MonoBehaviour
             TryStartSimulation();
         }
     }
+
+    /// <summary>
+    /// Starts the simulation if all robots are ready
+    /// </summary>
     public void TryStartSimulation()
     {
         if (AllReady())
@@ -59,15 +92,25 @@ public class SimulationController : MonoBehaviour
             Debug.Log("Simulation not started. Not all robots have recieved trajectories.");
         }    
     }
-    public void StopSimulation(){
+
+    /// <summary>
+    /// Stops the simulation
+    /// </summary>
+    public void StopSimulation()
+    {
             foreach (var coroutine in coroutines){
                 StopCoroutine(coroutine);
             }
             //capture states
             for(int i=0;i<robots.Count;i++){
-                last_commands_before_collision[i]=robots[i].LastCommand;
+                lastCommandsBeforeCollision[i]=robots[i].LastCommand;
             }
     }
+
+    /// <summary>
+    /// Checks if all robots have recieved trajectories to be simulated
+    /// </summary>
+    /// <returns>False if one or more robots dont have a trajectory. Otherwise true</returns>
     private bool AllReady()
     {
         foreach (var robot in robots)

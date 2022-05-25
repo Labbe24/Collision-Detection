@@ -16,7 +16,6 @@ namespace CollisionDetection.Robot.Control
     {
         public RosJointTrajectory Trajectory { get; set; }
         private ArticulationBody[] _articulationChain;
-        // private RosPublisher _rosPublisher;
         private string publisher_tag = "ros_publisher";
         private string content_tag = "collisions_list";
         public ControlType control = ControlType.PositionControl;
@@ -32,30 +31,57 @@ namespace CollisionDetection.Robot.Control
         public RobotTrajectoryPoint LastCommand { get; private set; }
         private double deltaTime;
 
+        /// <summary>
+        /// Sets robotMsgMapper
+        /// </summary>
+        /// <param name="msgMapper"></param>
         public void SetRobotMsgMapper(RobotMsgMapper msgMapper)
         {
             robotMsgMapper = msgMapper;
         }
+
+        /// <summary>
+        /// Sets startPosition
+        /// </summary>
+        /// <param name="vector"></param>
         public void SetRobotStartPosition(Vector3 vector)
         {
             startPosition = vector;
         }
+
+        /// <summary>
+        /// Sets startRotation
+        /// </summary>
+        /// <param name="vector"></param>
         public void SetRobotStartRotation(Vector3 vector)
         {
             startRotation = vector;
         }
 
+        /// <summary>
+        /// ROS service callback function
+        /// </summary>
+        /// <param name="jointTrajectory"></param>
         public void ROSServiceCallback(GenerateTrajectoryResponse jointTrajectory)
         {
             ReceivedTrajectory(jointTrajectory.res);
-            Debug.Log("callback for " + Trajectory.joint_names[0]);
+            Debug.Log("Callback for " + Trajectory.joint_names[0]);
         }
+
+        /// <summary>
+        /// Sets Trajectory
+        /// </summary>
+        /// <param name="trajectoryMsg"></param>
         public void ReceivedTrajectory(RosJointTrajectory trajectoryMsg)
         {
             Trajectory = trajectoryMsg;
         }
 
-
+        /// <summary>
+        /// Adds robot collision detection script to every child articulation body with a mesh collider attached. 
+        /// Sets parameters on every joint.
+        /// Moves robot root joint to desirde start position. 
+        /// </summary>
         void Start()
         {
             // Add collision detection controller to components in children with MeshCollider
@@ -87,6 +113,11 @@ namespace CollisionDetection.Robot.Control
 
             Assert.IsNotNull(_articulationChain);
         }
+
+        /// <summary>
+        /// Starts simulation and simulation timer.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator StartTrajectoryExecution()
         {
             StartTimer();
@@ -101,12 +132,17 @@ namespace CollisionDetection.Robot.Control
                 UpdateRobotPosition(Trajectory.points[i], Trajectory.joint_names);
                 LastCommand = new RobotTrajectoryPoint() { joint_names = Trajectory.joint_names, point = Trajectory.points[i] };
             }
-
         }
+
         void Update()
         {
         }
 
+        /// <summary>
+        /// Updates rotation of every joint.
+        /// </summary>
+        /// <param name="point">Rotation of joint in rad</param>
+        /// <param name="names">All joint names</param>
         public void UpdateRobotPosition(RosJointTrajectoryPoint point, string[] names)
         {
             for (int i = 0; i < point.positions.Length; i++)
@@ -154,11 +190,18 @@ namespace CollisionDetection.Robot.Control
             }
         }
 
+        /// <summary>
+        /// Starts a timer
+        /// </summary>
         public void StartTimer()
         {
             deltaTime = Time.timeAsDouble;
         }
 
+        /// <summary>
+        /// Gets elasped time since simulation start
+        /// </summary>
+        /// <returns></returns>
         public double GetElapsedTime()
         {
             return Time.timeAsDouble - deltaTime;

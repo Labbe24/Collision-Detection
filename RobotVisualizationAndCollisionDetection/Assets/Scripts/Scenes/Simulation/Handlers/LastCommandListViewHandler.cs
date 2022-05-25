@@ -8,20 +8,28 @@ public class LastCommandListViewHandler : MonoBehaviour
     public int robotIndex;
     public GameObject listItemPrefab;
     public SimulationController simulationController;
-    // Start is called before the first frame update
-    async void Start()
+
+    void Start()
     {
         
     }
 
+    /// <summary>
+    /// Clears UI view and sets new states on UI view
+    /// </summary>
     void OnEnable()
     {
         ClearList();
-        var state=simulationController.getRobotLastState(robotIndex);
+        var state=simulationController.GetRobotLastState(robotIndex);
         if(state!=null){
             AddStates(state);
         }
     }
+
+    /// <summary>
+    /// Adds state to view
+    /// </summary>
+    /// <param name="robotState"></param>
     public void AddStates(RobotTrajectoryPoint robotState)
     {
         for(int i = 0; i < robotState.joint_names.Length; i++)
@@ -30,6 +38,11 @@ public class LastCommandListViewHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds on view item to list view
+    /// </summary>
+    /// <param name="jointName"></param>
+    /// <param name="jointPosition"></param>
     public void AddListItem(string jointName, string jointPosition)
     {
         GameObject listItem = Instantiate(listItemPrefab);
@@ -38,6 +51,9 @@ public class LastCommandListViewHandler : MonoBehaviour
         listItem.transform.GetChild(1).GetComponent<Text>().text = jointPosition;
     }
 
+    /// <summary>
+    /// Clears view
+    /// </summary>
     public void ClearList()
     {
         foreach (Transform child in this.transform)

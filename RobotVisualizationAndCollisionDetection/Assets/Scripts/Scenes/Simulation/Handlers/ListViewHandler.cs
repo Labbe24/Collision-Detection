@@ -8,20 +8,28 @@ public class ListViewHandler : MonoBehaviour
     public int robotIndex;
     public GameObject listItemPrefab;
     public SimulationController simulationController;
-    // Start is called before the first frame update
-    async void Start()
+
+    void Start()
     {
         
     }
 
+    /// <summary>
+    /// Gets collision state of robots
+    /// </summary>
     void OnEnable()
     {
         ClearList();
-        var state=simulationController.getRobotCollisionState(robotIndex);
+        var state=simulationController.GetRobotCollisionState(robotIndex);
         if(state!=null){
             AddCollisions(state.robotState);
         }
     }
+
+    /// <summary>
+    /// Adds collision to UI view
+    /// </summary>
+    /// <param name="robotState"></param>
     public void AddCollisions(RobotState robotState)
     {
         for(int i = 0; i < robotState.jointNames.Count; i++)
@@ -30,6 +38,11 @@ public class ListViewHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds collision item to view
+    /// </summary>
+    /// <param name="jointName"></param>
+    /// <param name="jointPosition"></param>
     public void AddListItem(string jointName, string jointPosition)
     {
         GameObject listItem = Instantiate(listItemPrefab);
@@ -38,6 +51,9 @@ public class ListViewHandler : MonoBehaviour
         listItem.transform.GetChild(1).GetComponent<Text>().text = jointPosition;
     }
 
+    /// <summary>
+    /// Clears UI view
+    /// </summary>
     public void ClearList()
     {
         foreach (Transform child in this.transform)
@@ -45,8 +61,7 @@ public class ListViewHandler : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
 
