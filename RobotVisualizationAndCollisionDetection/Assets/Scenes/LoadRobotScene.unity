@@ -1795,7 +1795,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Select Mapper
+  m_Text: Select Model
 --- !u!222 &1066555180
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2751,7 +2751,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Select Mapper
+  m_Text: Select Model
 --- !u!222 &1900995277
 CanvasRenderer:
   m_ObjectHideFlags: 0
