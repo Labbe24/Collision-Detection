@@ -18,6 +18,14 @@ namespace CollisionDetection.Robot.Model
         private static float controllerAcceleration = 10;
         public static bool setImmovableLink = true;
         //public static string immovableLinkName = "base_link";
+
+        /// <summary>
+        /// Loads a specified urdf file
+        /// </summary>
+        /// <param name="urdfFilepath">Path to urdf file</param>
+        /// <param name="transform"><Robots transform/param>
+        /// <param name="immovableLinkName">Name of the robots root</param>
+        /// <returns>Robot as GameObject</returns>
         public static GameObject LoadUrdf(string urdfFilepath, Transform transform, string immovableLinkName)
         {
             if (string.IsNullOrEmpty(urdfFilepath))
@@ -44,6 +52,11 @@ namespace CollisionDetection.Robot.Model
             return robotObject;
         }
 
+        /// <summary>
+        /// Sets parameters of RobotController
+        /// </summary>
+        /// <param name="robot">Robot to add RobotController to</param>
+        /// <param name="immovableLinkName">Name of the robots root</param>
         private static void SetControllerParameters(GameObject robot, string immovableLinkName)
         {
             Transform baseNode = FirstChildByName(robot.transform, immovableLinkName);
@@ -52,22 +65,24 @@ namespace CollisionDetection.Robot.Model
                 baseNodeAB.immovable = true;
             }
 
-
             if (robot.TryGetComponent<Controller>(out Controller c))
             {
                 GameObject.Destroy(c);
             }
             RobotController controller = robot.AddComponent(typeof(RobotController)) as RobotController;
-            // controller.SetActive(false);
             controller.stiffness = controllerStiffness;
             controller.damping = controllerDamping;
             controller.forceLimit = controllerForceLimit;
             controller.speed = controllerSpeed;
             controller.acceleration = controllerAcceleration;
-
-            // controller.SetActive(true);
         }
-        // Start is called before the first frame update
+
+        /// <summary>
+        /// Gets the first child by name
+        /// </summary>
+        /// <param name="parent">Parent of the hierarchy</param>
+        /// <param name="name">Name to match child by</param>
+        /// <returns>Transform of found child or null</returns>
         private static Transform FirstChildByName(Transform parent, string name)
         {
             if (parent.childCount == 0)
@@ -88,6 +103,4 @@ namespace CollisionDetection.Robot.Model
             return result;
         }
     }
-
-
 }

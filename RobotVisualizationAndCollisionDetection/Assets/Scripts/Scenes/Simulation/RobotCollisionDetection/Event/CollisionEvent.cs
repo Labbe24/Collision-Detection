@@ -15,15 +15,9 @@ public class RobotTrajectoryPoint
 
 }
 
-public class CollisionEvent // : IComparable<CollisionEvent>
+public class CollisionEvent
 {
     public RobotState robotState;
     public double time;
-    public string collided_joint;
-
-    // implementation of how the Sort method should compare CollisionEvents in a List<CollisionEvent>
-    // public int CompareTo(CollisionEvent other)
-    // {
-        // return this.jointIndex.CompareTo(other.jointIndex);
-    // }
+    public string collidedJoint;
 }
