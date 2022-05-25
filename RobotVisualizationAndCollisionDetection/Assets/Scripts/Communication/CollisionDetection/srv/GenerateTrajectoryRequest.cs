@@ -14,21 +14,18 @@ namespace RosMessageTypes.CollisionDetection
         public override string RosMessageName => k_RosMessageName;
 
         public string move_group;
-        public Sensor.JointStateMsg start_state;
-        public Sensor.JointStateMsg end_state;
+        public Sensor.JointStateMsg[] states;
 
         public GenerateTrajectoryRequest()
         {
             this.move_group = "";
-            this.start_state = new Sensor.JointStateMsg();
-            this.end_state = new Sensor.JointStateMsg();
+            this.states = new Sensor.JointStateMsg[0];
         }
 
-        public GenerateTrajectoryRequest(string move_group, Sensor.JointStateMsg start_state, Sensor.JointStateMsg end_state)
+        public GenerateTrajectoryRequest(string move_group, Sensor.JointStateMsg[] states)
         {
             this.move_group = move_group;
-            this.start_state = start_state;
-            this.end_state = end_state;
+            this.states = states;
         }
 
         public static GenerateTrajectoryRequest Deserialize(MessageDeserializer deserializer) => new GenerateTrajectoryRequest(deserializer);
@@ -36,23 +33,21 @@ namespace RosMessageTypes.CollisionDetection
         private GenerateTrajectoryRequest(MessageDeserializer deserializer)
         {
             deserializer.Read(out this.move_group);
-            this.start_state = Sensor.JointStateMsg.Deserialize(deserializer);
-            this.end_state = Sensor.JointStateMsg.Deserialize(deserializer);
+            deserializer.Read(out this.states, Sensor.JointStateMsg.Deserialize, deserializer.ReadLength());
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
             serializer.Write(this.move_group);
-            serializer.Write(this.start_state);
-            serializer.Write(this.end_state);
+            serializer.WriteLength(this.states);
+            serializer.Write(this.states);
         }
 
         public override string ToString()
         {
             return "GenerateTrajectoryRequest: " +
             "\nmove_group: " + move_group.ToString() +
-            "\nstart_state: " + start_state.ToString() +
-            "\nend_state: " + end_state.ToString();
+            "\nstates: " + System.String.Join(", ", states.ToList());
         }
 
 #if UNITY_EDITOR

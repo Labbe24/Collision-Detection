@@ -1,16 +1,23 @@
 using System;
-
-public class CollisionEvent : IComparable<CollisionEvent>
+using System.Collections.Generic;
+using RosJointTrajectoryPoint = RosMessageTypes.Trajectory.JointTrajectoryPointMsg;
+public class RobotState
 {
-    public string robotName;
-    public string jointName;
-    public int jointIndex;
-    public double jointPosition;
-    public double time;
+    public string name;
+    public List<string> jointNames = new List<string>();
+    public List<string> jointPositions = new List<string>();
+}
 
-    // implementation of how the Sort method should compare CollisionEvents in a List<CollisionEvent>
-    public int CompareTo(CollisionEvent other)
-    {
-        return this.jointIndex.CompareTo(other.jointIndex);
-    }
+public class RobotTrajectoryPoint
+{
+    public string[] joint_names;
+    public RosJointTrajectoryPoint point;
+
+}
+
+public class CollisionEvent
+{
+    public RobotState robotState;
+    public double time;
+    public string collidedJoint;
 }

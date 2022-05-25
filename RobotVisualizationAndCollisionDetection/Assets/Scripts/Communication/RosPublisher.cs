@@ -26,8 +26,8 @@ public class RosPublisher : MonoBehaviour
 
     public void Publish(CollisionEvent collisionEvent)
     {
-        Debug.Log("CollisionMsg: " + collisionEvent.jointName
-        + " " + collisionEvent.jointPosition);
+        // Debug.Log("CollisionMsg: " + collisionEvent.jointName
+        // + " " + collisionEvent.jointPosition);
         // ros.Publish(topicName, collisionMsg);
     }
 

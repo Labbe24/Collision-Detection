@@ -7,24 +7,23 @@ using System.Linq;
 
 namespace CollisionDetection.Robot.Startup
 {
-
     public class FileExplorerHandler : MonoBehaviour
     {
         public Text resultPath;
         public Text warningMessage;
 
-        // Start is called before the first frame update
         void Start()
         {
-
         }
 
-        // Update is called once per frame
         void Update()
         {
-
         }
 
+        /// <summary>
+        /// Opens file explorer
+        /// </summary>
+        /// <returns></returns>
         public async void OpenFolderBrowser()
         {
             warningMessage.text = "";

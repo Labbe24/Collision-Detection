@@ -7,14 +7,12 @@ namespace CollisionDetection.Robot.Control
     public class RobotJointControl : MonoBehaviour
     {
         RobotController controller;
-
         public RotationDirection direction;
         public ControlType controltype;
         public float speed;
         public float torque;
         public float acceleration;
         public ArticulationBody joint;
-
 
         void Start()
         {
@@ -27,13 +25,14 @@ namespace CollisionDetection.Robot.Control
             acceleration = controller.acceleration;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         void FixedUpdate()
         {
-
             speed = controller.speed;
             torque = controller.torque;
             acceleration = controller.acceleration;
-
 
             if (joint.jointType != ArticulationJointType.FixedJoint)
             {

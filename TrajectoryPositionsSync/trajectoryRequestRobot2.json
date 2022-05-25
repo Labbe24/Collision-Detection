@@ -1,6 +1,6 @@
 {
 	"baseCoordinates":{
-		"X": "0.0",
+		"X": "1.0",
 		"Y": "0.65",
 		"Z": "0.0",
 		"RotationX": "0",
@@ -23,7 +23,7 @@
 		},
 		{
 			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-			"position": [2.30,-3.0,-0.5,-1.32,1.74,0.0]
+			"position": [0.2,0.0,-0.5,-1.32,1.74,0.0]
 		},
 		{
 			"name": ["shoulder_pan_joint","shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],

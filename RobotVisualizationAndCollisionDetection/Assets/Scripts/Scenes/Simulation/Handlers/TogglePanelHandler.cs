@@ -6,17 +6,19 @@ public class TogglePanelHandler : MonoBehaviour
 {
     public GameObject panel;
     private bool show = false;
-    // Start is called before the first frame update
+
     void Start()
     {
         panel.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {     
     }
 
+    /// <summary>
+    /// Toggles UI panel
+    /// </summary>
     public void Toggle()
     {
         this.show = !this.show;

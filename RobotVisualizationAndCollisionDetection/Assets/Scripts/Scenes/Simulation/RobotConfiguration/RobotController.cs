@@ -14,10 +14,8 @@ namespace CollisionDetection.Robot.Control
     public enum ControlType { PositionControl };
     public class RobotController : MonoBehaviour
     {
-        private float elapsedTime;
         public RosJointTrajectory Trajectory { get; set; }
         private ArticulationBody[] _articulationChain;
-        // private RosPublisher _rosPublisher;
         private string publisher_tag = "ros_publisher";
         private string content_tag = "collisions_list";
         public ControlType control = ControlType.PositionControl;
@@ -27,40 +25,65 @@ namespace CollisionDetection.Robot.Control
         public float speed = 5f; // Units: degree/s
         public float torque = 100f; // Units: Nm or N
         public float acceleration = 5f;// Units: m/s^2 / degree/s^2
-        public List<CollisionEvent> events;
         public RobotMsgMapper robotMsgMapper = new RobotMsgMapper();
         public Vector3 startPosition;
-
-        private ListViewHandler _listView;
+        public Vector3 startRotation;
+        public RobotTrajectoryPoint LastCommand { get; private set; }
         private double deltaTime;
 
+        /// <summary>
+        /// Sets robotMsgMapper
+        /// </summary>
+        /// <param name="msgMapper"></param>
         public void SetRobotMsgMapper(RobotMsgMapper msgMapper)
         {
             robotMsgMapper = msgMapper;
         }
+
+        /// <summary>
+        /// Sets startPosition
+        /// </summary>
+        /// <param name="vector"></param>
         public void SetRobotStartPosition(Vector3 vector)
         {
             startPosition = vector;
         }
 
+        /// <summary>
+        /// Sets startRotation
+        /// </summary>
+        /// <param name="vector"></param>
+        public void SetRobotStartRotation(Vector3 vector)
+        {
+            startRotation = vector;
+        }
+
+        /// <summary>
+        /// ROS service callback function
+        /// </summary>
+        /// <param name="jointTrajectory"></param>
         public void ROSServiceCallback(GenerateTrajectoryResponse jointTrajectory)
         {
-            Trajectory = jointTrajectory.res;
-            Debug.Log("callback for "+ Trajectory.joint_names[0]);
-            StartTrajectoryExecution();
+            ReceivedTrajectory(jointTrajectory.res);
+            Debug.Log("Callback for " + Trajectory.joint_names[0]);
         }
+
+        /// <summary>
+        /// Sets Trajectory
+        /// </summary>
+        /// <param name="trajectoryMsg"></param>
         public void ReceivedTrajectory(RosJointTrajectory trajectoryMsg)
         {
             Trajectory = trajectoryMsg;
         }
 
-
+        /// <summary>
+        /// Adds robot collision detection script to every child articulation body with a mesh collider attached. 
+        /// Sets parameters on every joint.
+        /// Moves robot root joint to desirde start position. 
+        /// </summary>
         void Start()
         {
-            //_listView = GameObject.FindWithTag(content_tag).GetComponent<ListView>();
-
-            events = new List<CollisionEvent>();
-
             // Add collision detection controller to components in children with MeshCollider
             foreach (Transform child in GetComponentsInChildren<Transform>())
             {
@@ -84,50 +107,47 @@ namespace CollisionDetection.Robot.Control
 
                 if (joint.isRoot)
                 {
-                    joint.TeleportRoot(startPosition, Quaternion.identity);
+                    joint.TeleportRoot(startPosition, Quaternion.Euler(startRotation.x, startRotation.y, startRotation.z));
                 }
             }
 
             Assert.IsNotNull(_articulationChain);
         }
-        IEnumerator ExecuteTrajectory()
+
+        /// <summary>
+        /// Starts simulation and simulation timer.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator StartTrajectoryExecution()
         {
             StartTimer();
 
             for (int i = 0; i < Trajectory.points.Length; i++)
             {
                 var next_msg_timestamp = (float)Trajectory.points[i].time_from_start.sec + (float)Trajectory.points[i].time_from_start.nanosec / (Math.Pow(10f, 9f));
-                yield return new WaitUntil(() => next_msg_timestamp >= elapsedTime);
+                if (next_msg_timestamp > GetElapsedTime())
+                {
+                    yield return new WaitUntil(() => next_msg_timestamp <= GetElapsedTime());
+                }
                 UpdateRobotPosition(Trajectory.points[i], Trajectory.joint_names);
+                LastCommand = new RobotTrajectoryPoint() { joint_names = Trajectory.joint_names, point = Trajectory.points[i] };
             }
         }
-        public IEnumerator StartTrajectoryExecution()
-        {
-            elapsedTime = 0.0f;
-            yield return StartCoroutine(ExecuteTrajectory());
 
-            Debug.Log("Trajectory execution finished!");
-
-            // list.ClearList();
-            GameObject.FindWithTag(content_tag).GetComponent<ListViewHandler>().AddCollisions(events);
-        }
         void Update()
         {
-            elapsedTime += Time.deltaTime;
-
-            // used for testing
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                // list.ClearList();
-                GameObject.FindWithTag(content_tag).GetComponent<ListViewHandler>().AddCollisions(events);
-            }
         }
 
+        /// <summary>
+        /// Updates rotation of every joint.
+        /// </summary>
+        /// <param name="point">Rotation of joint in rad</param>
+        /// <param name="names">All joint names</param>
         public void UpdateRobotPosition(RosJointTrajectoryPoint point, string[] names)
         {
             for (int i = 0; i < point.positions.Length; i++)
             {
-                UpdateJoint((float)(point.positions[i] * 180 / System.Math.PI), names[i]);
+                UpdateJoint((float)(point.positions[i] * 180 / System.Math.PI), (float)(point.velocities[i] * 180 / System.Math.PI), names[i]);
             }
         }
 
@@ -135,7 +155,7 @@ namespace CollisionDetection.Robot.Control
         /// Moves the joint corresponding to the selected index in the articulation chain
         /// </summary>
         /// <param name="selectedIndex">Index of the link selected in the Articulation Chain</param>
-        public void UpdateJoint(float newTarget, string name)
+        public void UpdateJoint(float newTarget, float newVelocityTarget, string name)
         {
             if (!robotMsgMapper.RobotContainsJoint(name))
             {
@@ -149,6 +169,7 @@ namespace CollisionDetection.Robot.Control
             if (_articulationChain[selectedIndex].jointPosition.dofCount >= 1)
             {
                 currentDrive.target = newTarget;
+                currentDrive.targetVelocity = newVelocityTarget;
                 _articulationChain[selectedIndex].xDrive = currentDrive;
             }
         }
@@ -169,11 +190,18 @@ namespace CollisionDetection.Robot.Control
             }
         }
 
+        /// <summary>
+        /// Starts a timer
+        /// </summary>
         public void StartTimer()
         {
             deltaTime = Time.timeAsDouble;
         }
 
+        /// <summary>
+        /// Gets elasped time since simulation start
+        /// </summary>
+        /// <returns></returns>
         public double GetElapsedTime()
         {
             return Time.timeAsDouble - deltaTime;

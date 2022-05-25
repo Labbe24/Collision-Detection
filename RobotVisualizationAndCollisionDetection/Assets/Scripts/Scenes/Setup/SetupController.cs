@@ -9,7 +9,6 @@ namespace CollisionDetection.Robot.Startup
 {
     public class SetupController : MonoBehaviour
     {
-        // Start is called before the first frame update
         public FileExplorerHandler robot1Path;
         public FileExplorerHandler robot2Path;
         public TrajectoryRequestHandler trajectoryRequestHandler1;
@@ -25,8 +24,7 @@ namespace CollisionDetection.Robot.Startup
             button.interactable = false;
         }
 
-        // Update is called once per frame
-        async void Update()
+        void Update()
         {
             if (robot1Path.resultPath.text != ""
                 && robot2Path.resultPath.text != ""
@@ -46,6 +44,9 @@ namespace CollisionDetection.Robot.Startup
             }
         }
 
+        /// <summary>
+        /// Loads simulation environment scene
+        /// </summary>
         public void GoToNextScene()
         {
             RobotConfigStore.configurations.Insert(
@@ -64,7 +65,7 @@ namespace CollisionDetection.Robot.Startup
                 {
                     path = robot2Path.resultPath.text,
                     subscribeTopic = "default",
-                    serviceName = "generate_trajectory_srv",
+                    serviceName = "generate_trajectory_srv1",
                     trajectoryRequestPath = trajectoryRequestHandler2.resultPath.text,
                     trajectoryRequestName = "trajectoryRequestRobot2.json",
 

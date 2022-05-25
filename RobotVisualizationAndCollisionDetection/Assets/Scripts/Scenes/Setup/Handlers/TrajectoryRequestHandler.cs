@@ -12,19 +12,18 @@ namespace CollisionDetection.Robot.Startup
         public Text resultPath;
         public Text warningMessage;
 
-        // Start is called before the first frame update
         void Start()
         {
-
         }
 
-        // Update is called once per frame
         void Update()
         {
-
         }
 
-        public async void OpenFolderBrowser()
+        /// <summary>
+        /// Opens file explorer
+        /// </summary>
+        public void OpenFolderBrowser()
         {
             warningMessage.text = "";
             resultPath.text = EditorUtility.OpenFolderPanel("Select trajectory request directory", "", "");

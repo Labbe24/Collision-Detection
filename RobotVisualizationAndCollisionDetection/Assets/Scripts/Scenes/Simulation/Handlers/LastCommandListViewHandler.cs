@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ListViewHandler : MonoBehaviour
+public class LastCommandListViewHandler : MonoBehaviour
 {
     public int robotIndex;
     public GameObject listItemPrefab;
@@ -15,31 +15,31 @@ public class ListViewHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets collision state of robots
+    /// Clears UI view and sets new states on UI view
     /// </summary>
     void OnEnable()
     {
         ClearList();
-        var state=simulationController.GetRobotCollisionState(robotIndex);
+        var state=simulationController.GetRobotLastState(robotIndex);
         if(state!=null){
-            AddCollisions(state.robotState);
+            AddStates(state);
         }
     }
 
     /// <summary>
-    /// Adds collision to UI view
+    /// Adds state to view
     /// </summary>
     /// <param name="robotState"></param>
-    public void AddCollisions(RobotState robotState)
+    public void AddStates(RobotTrajectoryPoint robotState)
     {
-        for(int i = 0; i < robotState.jointNames.Count; i++)
+        for(int i = 0; i < robotState.joint_names.Length; i++)
         {
-            AddListItem(robotState.jointNames[i], robotState.jointPositions[i]);
+            AddListItem(robotState.joint_names[i], robotState.point.positions[i].ToString());
         }
     }
 
     /// <summary>
-    /// Adds collision item to view
+    /// Adds on view item to list view
     /// </summary>
     /// <param name="jointName"></param>
     /// <param name="jointPosition"></param>
@@ -52,7 +52,7 @@ public class ListViewHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Clears UI view
+    /// Clears view
     /// </summary>
     public void ClearList()
     {
@@ -61,7 +61,8 @@ public class ListViewHandler : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
     }
-    
+
+    // Update is called once per frame
     void Update()
     {
 
