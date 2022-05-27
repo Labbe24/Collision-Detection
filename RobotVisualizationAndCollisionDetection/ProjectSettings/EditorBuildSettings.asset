@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/LoadRobotScene.unity
+    path: Assets/Scenes/SetupScene.unity
     guid: 422ea30df9e3c9303a1984692d706bf9
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
