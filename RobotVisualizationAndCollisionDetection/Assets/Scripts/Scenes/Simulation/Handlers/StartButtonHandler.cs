@@ -26,12 +26,10 @@ public class StartButtonHandler : MonoBehaviour
 
         if(simulationController.AllReady())
         {
-            Debug.Log("All ready");
             button.interactable = true;
         }
         else
         {
-            Debug.Log("All not ready");
             button.interactable = false;
         }
     }
