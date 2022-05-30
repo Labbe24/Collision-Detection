@@ -17,13 +17,13 @@ public class TogglePanelHandler : MonoBehaviour
 
     void Update()
     {
-        if(simulationController.collisionStates.Count > 0)
+        if(simulationController.collisionStates.TrueForAll(c => c == null))
         {
-            button.interactable = true;
+            button.interactable = false;
         }
         else
         {
-            button.interactable = false;
+            button.interactable = true;
         }
     }
 
