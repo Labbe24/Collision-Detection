@@ -15,6 +15,15 @@ public class StartButtonHandler : MonoBehaviour
 
     void Update()
     {
+        if(simulationController.isSimulating)
+        {
+            button.gameObject.SetActive(false);
+        }
+        else
+        {
+            button.gameObject.SetActive(true);
+        }
+
         if(simulationController.AllReady())
         {
             button.interactable = true;

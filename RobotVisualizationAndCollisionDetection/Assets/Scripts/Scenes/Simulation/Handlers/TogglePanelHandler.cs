@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TogglePanelHandler : MonoBehaviour
 {
     public GameObject panel;
+    public Button button;
+    public SimulationController simulationController;
     private bool show = false;
 
     void Start()
@@ -13,7 +16,15 @@ public class TogglePanelHandler : MonoBehaviour
     }
 
     void Update()
-    {     
+    {
+        if(simulationController.collisionStates.Count > 0)
+        {
+            button.interactable = true;
+        }
+        else
+        {
+            button.interactable = false;
+        }
     }
 
     /// <summary>

@@ -6,9 +6,10 @@ using System.Linq;
 public class SimulationController : MonoBehaviour
 {
     public List<RobotController> robots;
+    public List<CollisionEvent> collisionStates;
+    public bool isSimulating;
     private List<IEnumerator> coroutines;
     private List<RobotTrajectoryPoint> lastCommandsBeforeCollision;
-    private List<CollisionEvent> collisionStates;
 
     /// <summary>
     /// Sets the collision event
@@ -57,6 +58,7 @@ public class SimulationController : MonoBehaviour
 
     void Start()
     {
+        isSimulating = false;
         coroutines = new List<IEnumerator>();
         lastCommandsBeforeCollision = new List<RobotTrajectoryPoint>(){null, null};
         collisionStates = new List<CollisionEvent>(){null, null};
@@ -74,6 +76,7 @@ public class SimulationController : MonoBehaviour
     {
         if (AllReady())
         {
+            isSimulating = true;
             foreach (var robot in robots)
             {
                 coroutines.Add(robot.StartTrajectoryExecution());
@@ -100,6 +103,7 @@ public class SimulationController : MonoBehaviour
             for(int i=0;i<robots.Count;i++){
                 lastCommandsBeforeCollision[i]=robots[i].LastCommand;
             }
+            isSimulating = false;
     }
 
     /// <summary>
