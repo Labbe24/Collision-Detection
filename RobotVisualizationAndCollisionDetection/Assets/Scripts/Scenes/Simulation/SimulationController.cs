@@ -64,12 +64,7 @@ public class SimulationController : MonoBehaviour
 
     void Update()
     {
-        // used for testing
-        if(Input.GetKeyDown(KeyCode.S))
-        {
-            Debug.Log("Starting simulation.");
-            TryStartSimulation();
-        }
+
     }
 
     /// <summary>
@@ -111,7 +106,7 @@ public class SimulationController : MonoBehaviour
     /// Checks if all robots have recieved trajectories to be simulated
     /// </summary>
     /// <returns>False if one or more robots dont have a trajectory. Otherwise true</returns>
-    private bool AllReady()
+    public bool AllReady()
     {
         foreach (var robot in robots)
         {
